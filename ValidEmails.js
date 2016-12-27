@@ -1,4 +1,8 @@
 $(document).ready(function () {
+	function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
 	// Add click event handler to button
 	$("#submit").click( function () {
 		if ( ! window.FileReader ) {
@@ -13,17 +17,16 @@ $(document).ready(function () {
 			fr = new FileReader(); // FileReader instance
 			fr.onload = function () {
 				// Do stuff on onload, use fr.result for contents of file
+				//Empty the div tag before the insertions
+				$('.modal-body').empty();
         //Split the lines
         lines=fr.result.split("\n");
         for (var i = 0; i < lines.length; i++) {
-            if(lines[i].indexOf("@")>-1)
-            {
-              if(lines[i].indexOf("@")<lines[i].lastIndexOf("."))
+
+              if(validateEmail(lines[i]))
               {
                 $( '.modal-body' ).append( $("<p></p>").text(lines[i]));
               }
-            }
-
 
       }
 			};
